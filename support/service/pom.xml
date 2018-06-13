@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.github.charlesvhe</groupId>
+        <artifactId>spring-cloud-platform-support</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>spring-cloud-platform-support-service</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.charlesvhe</groupId>
+            <artifactId>spring-cloud-platform-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-sql-spring</artifactId>
+            <version>${querydsl.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <version>6.2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alicp.jetcache</groupId>
+            <artifactId>jetcache-starter-redis</artifactId>
+            <version>2.5.2</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-maven-plugin</artifactId>
+                <version>${querydsl.version}</version>
+                <configuration>
+                    <jdbcDriver>org.h2.Driver</jdbcDriver>
+                    <jdbcUrl>jdbc:h2:tcp://localhost:9092/mem:testdb;DB_CLOSE_DELAY=-1;MODE=MySQL</jdbcUrl>
+                    <jdbcUser>sa</jdbcUser>
+                    <jdbcPassword></jdbcPassword>
+                    <tableNamePattern>config_meta,config_item</tableNamePattern>
+                    <customTypes>
+                        com.querydsl.sql.types.UtilDateType
+                    </customTypes>
+                    <packageName>com.github.charlesvhe.springcloud.platform.support.entity</packageName>
+                    <exportBeans>true</exportBeans>
+                    <serializerClass>com.github.charlesvhe.springcloud.platform.core.querydsl.MyMetaDataSerializer</serializerClass>
+                    <beanSerializerClass>com.github.charlesvhe.springcloud.platform.core.querydsl.MyBeanSerializer</beanSerializerClass>
+                    <targetFolder>src/main/java</targetFolder>
+                    <sourceFolder>src/main/java</sourceFolder>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.h2database</groupId>
+                        <artifactId>h2</artifactId>
+                        <version>${h2.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.github.charlesvhe</groupId>
+                        <artifactId>spring-cloud-platform-core</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+</project>
